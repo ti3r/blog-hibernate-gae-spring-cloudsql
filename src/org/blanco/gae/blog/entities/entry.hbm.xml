@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="org.blanco.gae.blog.entities.Entry" table="entries">
+        <id name="entryId" type="long">
+            <column name="ENTRY_ID" />
+            <generator class="identity" />
+        </id>
+        <property name="entry" type="string">
+            <column name="ENTRY" />
+        </property>
+        <property name="author" type="string">
+            <column name="AUTHOR" not-null="true" />
+        </property>
+        <property name="date" type="timestamp">
+            <column name="DATE" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
