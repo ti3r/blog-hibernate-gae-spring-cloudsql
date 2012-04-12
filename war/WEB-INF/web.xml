@@ -4,6 +4,17 @@ xmlns="http://java.sun.com/xml/ns/javaee"
 xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+
+	<context-param>
+		<description>springContextDescription</description>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:/SpringBeans.xml</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
 	<servlet>
 		<servlet-name>Blog</servlet-name>
 		<servlet-class>org.blanco.gae.blog.BlogServlet</servlet-class>
@@ -12,6 +23,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>Blog</servlet-name>
 		<url-pattern>/blog</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Entries</servlet-name>
+		<servlet-class>org.blanco.gae.blog.EntriesListServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Entries</servlet-name>
+		<url-pattern>/entries</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>

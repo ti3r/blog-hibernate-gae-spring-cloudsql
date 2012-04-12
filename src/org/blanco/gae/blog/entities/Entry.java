@@ -56,6 +56,10 @@ public class Entry {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	@Override
+	public String toString() {
+		return "Id: "+entryId+", Author: "+author+", Entry: "+entry+", Date: "+date;
+	}
 	
 	
 	

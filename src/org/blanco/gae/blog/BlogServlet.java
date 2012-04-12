@@ -26,20 +26,31 @@ package org.blanco.gae.blog;
 import java.io.IOException;
 import java.util.Date;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.blanco.gae.blog.dao.HibernateSessionFactory;
 import org.blanco.gae.blog.entities.Entry;
 import org.hibernate.Session;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 @SuppressWarnings("serial")
 public class BlogServlet extends HttpServlet {
 	
+	private WebApplicationContext ctx = null;
+	//Initialize the web application context from the servlet context.
 	
-	
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		ctx = WebApplicationContextUtils
+				.getWebApplicationContext(config.getServletContext());
+	}
+
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		try {
@@ -52,17 +63,18 @@ public class BlogServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		//Parse the input form
 		Entry entry = new Entry();
 		entry.setAuthor(req.getParameter("author"));
 		entry.setEntry(req.getParameter("entry"));
 		entry.setDate(new Date(System.currentTimeMillis()));
-		
-		Session session = (Session) HibernateSessionFactory.getApplicationContext()
-				.getBean("session");
+		//store the entry
+		Session session = (Session) ctx.getBean("session");
 		session.persist(entry);
 		session.flush();
 		session.close();
 		req.setAttribute("entry", entry);
+		//forward to presentation
 		req.getRequestDispatcher("entry_created.jsp").forward(req, resp);
 	}
 	
